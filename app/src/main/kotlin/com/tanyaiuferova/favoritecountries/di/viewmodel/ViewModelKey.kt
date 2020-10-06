@@ -1,0 +1,14 @@
+package com.tanyaiuferova.favoritecountries.di.viewmodel
+
+import androidx.lifecycle.ViewModel
+import dagger.MapKey
+import kotlin.reflect.KClass
+
+/**
+ * Author: Tanya Iuferova
+ * Date: 10/5/2020
+ */
+@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
+@kotlin.annotation.Retention(AnnotationRetention.RUNTIME)
+@MapKey
+internal annotation class ViewModelKey(val value: KClass<out ViewModel>)
