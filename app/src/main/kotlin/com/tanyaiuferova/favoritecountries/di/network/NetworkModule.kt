@@ -18,21 +18,15 @@ object NetworkModule {
     @Provides
     @Singleton
     @JvmStatic
-    fun provideOkHttpClient(provider: OkHttpClientProvider): OkHttpClient {
-        return provider.get()
-    }
+    fun provideOkHttpClient(): OkHttpClient = OkHttpClientProvider().get()
 
     @Provides
     @Singleton
     @JvmStatic
-    fun provideGson(): Gson {
-        return GsonProvider().get()
-    }
+    fun provideGson(): Gson = GsonProvider().get()
 
     @Provides
     @Named(WORLD_BANK_URL_QUALIFIER)
     @JvmStatic
-    fun provideWorldBankBaseUrl(): HttpUrl {
-        return BaseUrlProvider().get()
-    }
+    fun provideWorldBankBaseUrl(): HttpUrl = BaseUrlProvider().get()
 }

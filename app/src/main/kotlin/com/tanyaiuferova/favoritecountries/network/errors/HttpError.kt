@@ -1,4 +1,4 @@
-package com.tanyaiuferova.favoritecountries.network
+package com.tanyaiuferova.favoritecountries.network.errors
 
 import okhttp3.Response
 

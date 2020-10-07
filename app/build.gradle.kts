@@ -67,6 +67,11 @@ dependencies {
     // Saved state module for ViewModel
 //    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
+    // Room
+    implementation("androidx.room:room-runtime:2.3.0-alpha02")
+    implementation("androidx.room:room-rxjava3:2.3.0-alpha02")
+    kapt("androidx.room:room-compiler:2.3.0-alpha02")
+
     // Dagger2
     implementation("com.google.dagger:dagger:2.17")
     implementation("com.google.dagger:dagger-android:2.17")

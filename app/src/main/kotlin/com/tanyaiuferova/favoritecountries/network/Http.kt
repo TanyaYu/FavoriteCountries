@@ -3,9 +3,10 @@ package com.tanyaiuferova.favoritecountries.network
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.tanyaiuferova.favoritecountries.di.WORLD_BANK_URL_QUALIFIER
+import com.tanyaiuferova.favoritecountries.network.errors.HttpError
 import io.reactivex.rxjava3.core.Single
-import okhttp3.*
-import java.io.IOException
+import okhttp3.HttpUrl
+import okhttp3.OkHttpClient
 import java.lang.reflect.Type
 import javax.inject.Inject
 import javax.inject.Named
@@ -30,9 +31,7 @@ class Http @Inject constructor(
                 .addPathSegment(query)
                 .build()
 
-            val request = GetRequest(
-                url
-            )
+            val request = GetRequest(url)
                 .also(requestBuilder)
                 .create()
 
@@ -40,21 +39,15 @@ class Http @Inject constructor(
 
             emitter.setCancellable { call.cancel() }
 
-            call.enqueue(object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    emitter.onError(e)
-                }
+            val response = call.execute()
+            val body = response.body()
 
-                override fun onResponse(call: Call, response: Response) {
-                    val body = response.body()
-                    if (response.isSuccessful && body != null) {
-                        val parsedBody = gson.fromJson<T>(body.charStream(), type)
-                        emitter.onSuccess(parsedBody)
-                    } else {
-                        emitter.onError(HttpError(response))
-                    }
-                }
-            })
+            if (response.isSuccessful && body != null) {
+                val parsedBody = gson.fromJson<T>(body.charStream(), type)
+                emitter.onSuccess(parsedBody)
+            } else {
+                emitter.onError(HttpError(response))
+            }
         }
     }
 

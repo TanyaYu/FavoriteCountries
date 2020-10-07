@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import dagger.android.support.AndroidSupportInjection
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import javax.inject.Inject
 
 /**
@@ -18,6 +19,8 @@ open class BaseFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayou
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
+    val disposable = CompositeDisposable()
+
     inline fun <reified VM : ViewModel> viewModels() = viewModels<VM>(factoryProducer = { viewModelFactory })
 
     override fun onAttach(context: Context) {
@@ -28,5 +31,10 @@ open class BaseFragment(@LayoutRes contentLayoutId: Int) : Fragment(contentLayou
 
     open fun onAttached() {
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        disposable.dispose()
     }
 }
