@@ -1,0 +1,38 @@
+package com.tanyaiuferova.favoritecountries.di.network
+
+import com.google.gson.Gson
+import com.tanyaiuferova.favoritecountries.di.WORLD_BANK_URL_QUALIFIER
+import dagger.Module
+import dagger.Provides
+import okhttp3.HttpUrl
+import okhttp3.OkHttpClient
+import javax.inject.Named
+import javax.inject.Singleton
+
+/**
+ * Author: Tanya Yuferova
+ * Date: 10/5/2020
+ */
+@Module
+object NetworkModule {
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun provideOkHttpClient(provider: OkHttpClientProvider): OkHttpClient {
+        return provider.get()
+    }
+
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun provideGson(): Gson {
+        return GsonProvider().get()
+    }
+
+    @Provides
+    @Named(WORLD_BANK_URL_QUALIFIER)
+    @JvmStatic
+    fun provideWorldBankBaseUrl(): HttpUrl {
+        return BaseUrlProvider().get()
+    }
+}

@@ -1,9 +1,6 @@
 package com.tanyaiuferova.favoritecountries.di.database
 
-import com.tanyaiuferova.favoritecountries.data.country.CountriesRepository
 import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
 
 /**
  * Author: Tanya Iuferova
@@ -12,10 +9,4 @@ import javax.inject.Singleton
 @Module
 object DatabaseModule {
 
-    @Provides
-    @Singleton
-    @JvmStatic
-    fun provideCountriesRepository(): CountriesRepository {
-        return CountriesRepository()
-    }
 }

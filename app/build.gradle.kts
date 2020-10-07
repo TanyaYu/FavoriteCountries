@@ -79,6 +79,13 @@ dependencies {
     implementation("io.reactivex.rxjava3:rxkotlin:3.0.0")
     implementation("io.reactivex.rxjava3:rxandroid:3.0.0")
 
+    //Okhttp3
+    implementation("com.squareup.okhttp3:okhttp:3.10.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:3.10.0")
+
+    //Gson
+    implementation("com.google.code.gson:gson:2.8.6")
+
     // Material Design
     implementation("com.google.android.material:material:1.3.0-alpha03")
 

@@ -5,6 +5,7 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.tanyaiuferova.favoritecountries.R
 import com.tanyaiuferova.favoritecountries.viewmodels.HomeViewModel
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_home.*
 import timber.log.Timber
 
@@ -24,5 +25,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     override fun onAttached() {
         Timber.d(viewModel.test)
+        viewModel.countries.subscribeBy(Timber::e) {Timber.d(it.toString())}
+
     }
 }
