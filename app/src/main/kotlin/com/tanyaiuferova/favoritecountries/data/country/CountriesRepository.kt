@@ -24,12 +24,22 @@ class CountriesRepository @Inject constructor(
             .flatMapCompletable(::updateCache)
     }
 
+    fun getLoadedInCache(page: Int, perPage: Int): Single<List<Country>> {
+        return getAllFromNetwork(page, perPage)
+            .mapList(CountryResponse::toEntity)
+            .flatMap { list ->
+                updateCache(list)
+                    .toSingleDefault(list)
+            }
+    }
+
+
     fun getAllFromNetwork(page: Int, perPage: Int): Single<List<CountryResponse>> {
         return api.getCountries(page, perPage)
             .subscribeOn(Schedulers.io)
             .map { list ->
                 list.filter { country ->
-                    country.capitalCity.isNullOrEmpty()
+                    !country.capitalCity.isNullOrEmpty()
                 }
             }
     }
@@ -55,7 +65,7 @@ class CountriesRepository @Inject constructor(
     }
 
     fun addToFavorites(countryId: String): Completable {
-        return countriesDao.addToFavorites(countryId)
+        return countriesDao.updateFavorite(countryId, true)
             .subscribeOn(Schedulers.computation)
     }
 
@@ -65,7 +75,7 @@ class CountriesRepository @Inject constructor(
     }
 
     fun deleteFromFavorites(countryId: String): Completable {
-        return countriesDao.removeFromFavorites(countryId)
+        return countriesDao.updateFavorite(countryId, false)
             .subscribeOn(Schedulers.computation)
     }
 

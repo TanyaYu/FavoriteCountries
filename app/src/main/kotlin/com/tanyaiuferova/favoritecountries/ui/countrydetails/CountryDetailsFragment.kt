@@ -1,4 +1,4 @@
-package com.tanyaiuferova.favoritecountries.ui
+package com.tanyaiuferova.favoritecountries.ui.countrydetails
 
 /**
  * Author: Tanya Yuferova

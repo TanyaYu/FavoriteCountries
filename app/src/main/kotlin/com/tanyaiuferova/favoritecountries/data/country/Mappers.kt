@@ -1,6 +1,7 @@
 package com.tanyaiuferova.favoritecountries.data.country
 
 import com.tanyaiuferova.favoritecountries.data.network.responsemodels.country.CountryResponse
+import com.tanyaiuferova.favoritecountries.ui.countrysearch.CountrySearchItem
 
 /**
  * Author: Tanya Yuferova
@@ -9,4 +10,9 @@ import com.tanyaiuferova.favoritecountries.data.network.responsemodels.country.C
 fun CountryResponse.toEntity() = Country(
     id = id.orEmpty(),
     name = name.orEmpty()
+)
+
+fun Country.toCountrySearchItem() = CountrySearchItem(
+    id = id,
+    name = name
 )

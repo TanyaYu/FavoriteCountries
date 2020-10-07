@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/home"
-        android:name="com.tanyaiuferova.favoritecountries.ui.HomeFragment"
+        android:name="com.tanyaiuferova.favoritecountries.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/search"
-        android:name="com.tanyaiuferova.favoritecountries.ui.CountrySearchFragment"
+        android:name="com.tanyaiuferova.favoritecountries.ui.countrysearch.CountrySearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_country_search" />
 

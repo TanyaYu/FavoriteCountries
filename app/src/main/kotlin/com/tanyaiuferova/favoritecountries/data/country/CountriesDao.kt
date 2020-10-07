@@ -29,14 +29,10 @@ interface CountriesDao {
     @Query("SELECT * FROM country WHERE isFavorite = :isFavorite")
     fun getFavorites(isFavorite: Boolean): Flowable<List<Country>>
 
-    @Query("DELETE FROM country WHERE isFavorite = 1")
+    @Query("UPDATE country SET isFavorite = :isFavorite WHERE id = :id")
+    fun updateFavorite(id: String, isFavorite: Boolean): Completable
+
+    @Query("DELETE FROM country WHERE isFavorite = 0")
     fun deleteAllUnfavorites(): Completable
-
-    @Query("UPDATE country SET isFavorite = 1 WHERE id = :id")
-    fun addToFavorites(id: String): Completable
-
-    @Query("UPDATE country SET isFavorite = 0 WHERE id = :id")
-    fun removeFromFavorites(id: String): Completable
-
 
 }

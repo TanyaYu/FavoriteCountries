@@ -1,6 +1,7 @@
 package com.tanyaiuferova.favoritecountries.viewmodels
 
 import com.tanyaiuferova.favoritecountries.data.country.CountriesRepository
+import io.reactivex.rxjava3.kotlin.plusAssign
 import javax.inject.Inject
 
 /**
@@ -10,6 +11,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val countriesRepository: CountriesRepository
 ) : RxViewModel() {
-
-    val countries = countriesRepository.getAllFromCache()
+    init {
+        disposable += countriesRepository.clearCache().subscribe()
+    }
 }

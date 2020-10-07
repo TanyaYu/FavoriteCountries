@@ -1,7 +1,7 @@
 package com.tanyaiuferova.favoritecountries.di.activity
 
-import com.tanyaiuferova.favoritecountries.ui.CountrySearchFragment
-import com.tanyaiuferova.favoritecountries.ui.HomeFragment
+import com.tanyaiuferova.favoritecountries.ui.countrysearch.CountrySearchFragment
+import com.tanyaiuferova.favoritecountries.ui.home.HomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
