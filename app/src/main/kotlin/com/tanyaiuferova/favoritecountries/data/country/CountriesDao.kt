@@ -17,10 +17,26 @@ interface CountriesDao {
     @Query("SELECT * FROM country")
     fun getAll(): Flowable<List<Country>>
 
+    @Query("SELECT * FROM country where id like :pattern OR name like :pattern")
+    fun search(pattern: String): Flowable<List<Country>>
+
     @Query("SELECT * FROM country WHERE id = :id")
-    fun getById(id: Int): Single<Country>
+    fun getById(id: String): Single<Country>
 
     @Insert(onConflict = IGNORE)
     fun insertAll(virtues: List<Country>): Completable
+
+    @Query("SELECT * FROM country WHERE isFavorite = :isFavorite")
+    fun getFavorites(isFavorite: Boolean): Flowable<List<Country>>
+
+    @Query("DELETE FROM country WHERE isFavorite = 1")
+    fun deleteAllUnfavorites(): Completable
+
+    @Query("UPDATE country SET isFavorite = 1 WHERE id = :id")
+    fun addToFavorites(id: String): Completable
+
+    @Query("UPDATE country SET isFavorite = 0 WHERE id = :id")
+    fun removeFromFavorites(id: String): Completable
+
 
 }

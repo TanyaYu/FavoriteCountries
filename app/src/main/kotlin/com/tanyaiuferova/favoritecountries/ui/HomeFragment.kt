@@ -28,9 +28,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     override fun onAttached() {
         disposable += viewModel.countries
             .observeOn(Schedulers.main)
-            .subscribeBy(Timber::e) {Timber.d(it.toString())}
-        disposable += viewModel.local
-            .observeOn(Schedulers.main)
-            .subscribeBy(Timber::e) {Timber.d(it.toString())}
+            .subscribeBy(Timber::e) { Timber.d(it.toString()) }
     }
 }
