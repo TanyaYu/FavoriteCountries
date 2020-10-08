@@ -27,5 +27,7 @@
     <dimen name="two_line_item_m">64dp</dimen>
     <dimen name="two_line_item_h">72dp</dimen>
 
+    <dimen name="three_line_item_m">88dp</dimen>
+
     <dimen name="action_bar_elevation">4dp</dimen>
 </resources>

@@ -2,6 +2,7 @@ package com.tanyaiuferova.favoritecountries.data.country
 
 import com.tanyaiuferova.favoritecountries.data.network.responsemodels.country.CountryResponse
 import com.tanyaiuferova.favoritecountries.ui.countrysearch.CountrySearchItem
+import com.tanyaiuferova.favoritecountries.ui.home.FavoriteCountryItem
 
 /**
  * Author: Tanya Yuferova
@@ -12,7 +13,13 @@ fun CountryResponse.toEntity() = Country(
     name = name.orEmpty()
 )
 
-fun Country.toCountrySearchItem() = CountrySearchItem(
+fun Country.toSearchItem() = CountrySearchItem(
     id = id,
     title = "[$id] $name"
+)
+
+fun Country.toFavoriteItem() = FavoriteCountryItem(
+    id = id,
+    title = name,
+    notes = notes.orEmpty()
 )

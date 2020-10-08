@@ -42,14 +42,14 @@ class CountrySearchFragment : BaseFragment(R.layout.fragment_country_search) {
     private val viewSwitcher by lazy {
         ViewSwitcher(
             progress_bar,
-            countries_rv,
+            recycler,
             error_view,
             empty_view
         )
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        with(countries_rv) {
+        with(recycler) {
             adapter = paginationAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
@@ -87,7 +87,7 @@ class CountrySearchFragment : BaseFragment(R.layout.fragment_country_search) {
     private fun bindState(state: CountrySearchViewModel.State) {
         when (state) {
             LOADING -> viewSwitcher.display(progress_bar)
-            DATA -> viewSwitcher.display(countries_rv)
+            DATA -> viewSwitcher.display(recycler)
             ERROR -> viewSwitcher.display(error_view)
             EMPTY -> viewSwitcher.display(empty_view)
             PAGE_ERROR -> showPageErrorMessage()

@@ -5,4 +5,7 @@
     <string name="country_search_empty_message">Nothing found</string>
     <string name="country_search_error_message">Something went wrong</string>
     <string name="retry_action">Retry</string>
+    <string name="home_toolbar_title">Favorites</string>
+    <string name="home_empty_message">Nothing found</string>
+    <string name="home_add_content_des">Add</string>
 </resources>

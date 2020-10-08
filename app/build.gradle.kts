@@ -16,6 +16,7 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
@@ -63,9 +64,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime:2.2.0")
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     kapt("androidx.lifecycle:lifecycle-compiler:2.2.0")
-
-    // Saved state module for ViewModel
-//    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 
     // Room
     implementation("androidx.room:room-runtime:2.3.0-alpha02")

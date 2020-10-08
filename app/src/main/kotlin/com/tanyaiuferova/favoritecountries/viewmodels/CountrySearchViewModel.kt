@@ -2,7 +2,7 @@ package com.tanyaiuferova.favoritecountries.viewmodels
 
 import com.tanyaiuferova.favoritecountries.data.country.CountriesRepository
 import com.tanyaiuferova.favoritecountries.data.country.Country
-import com.tanyaiuferova.favoritecountries.data.country.toCountrySearchItem
+import com.tanyaiuferova.favoritecountries.data.country.toSearchItem
 import com.tanyaiuferova.favoritecountries.pagination.Pagination
 import com.tanyaiuferova.favoritecountries.ui.countrysearch.CountrySearchItem
 import com.tanyaiuferova.favoritecountries.utils.Schedulers
@@ -48,7 +48,7 @@ class CountrySearchViewModel @Inject constructor(
         ) { query, _ -> query }
             .flatMapMaybe(countriesRepository::search)
             .skipWhile { it.isEmpty() && !isFirstPageLoaded } // process the first page request before submitting an empty list
-            .mapList(Country::toCountrySearchItem)
+            .mapList(Country::toSearchItem)
             .observeOn(Schedulers.main)
             .subscribeBy(
                 onNext = { data ->

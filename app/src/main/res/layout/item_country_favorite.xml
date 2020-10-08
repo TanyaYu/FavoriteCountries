@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/three_line_item_m"
+    android:background="@drawable/selectable_row_background"
+    android:clickable="true"
+    android:focusable="true"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/spacing_h"
+    android:paddingRight="@dimen/spacing_h">
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_h"
+        android:layout_marginBottom="@dimen/spacing_l"
+        android:maxLines="1"
+        android:textAppearance="@style/Subtitle1"
+        tools:text="Country" />
+
+    <TextView
+        android:id="@+id/notes_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        android:textAppearance="@style/Caption"
+        tools:text="Notes notes notes notes notes notes notes notes notes notes notes notes notes" />
+
+</LinearLayout>
