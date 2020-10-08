@@ -38,7 +38,7 @@ class CountrySearchAdapter(private val onItemClick: (String) -> Unit = {}) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         with(holder) {
-            name.text = item.name
+            title.text = item.title
             itemView.setOnClickListener {
                 onItemClick(item.id)
             }
@@ -46,6 +46,6 @@ class CountrySearchAdapter(private val onItemClick: (String) -> Unit = {}) :
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.name_tv)
+        val title: TextView = view.findViewById(R.id.title_tv)
     }
 }

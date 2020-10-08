@@ -6,5 +6,5 @@ package com.tanyaiuferova.favoritecountries.ui.countrysearch
  */
 data class CountrySearchItem(
     val id: String,
-    val name: String
+    val title: String
 )

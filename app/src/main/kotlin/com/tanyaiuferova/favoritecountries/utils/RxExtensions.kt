@@ -1,9 +1,9 @@
 package com.tanyaiuferova.favoritecountries.utils
 
 import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.functions.BiFunction
 
 /**
  * Author: Tanya Yuferova
@@ -21,6 +21,6 @@ fun <X: Any, Y: Any> Flowable<List<X>>.mapList(transformer: (X) -> Y) : Flowable
     return this.map { it.map(transformer) }
 }
 
-fun <X, Y, Z> Observable<X>.combineLatest(observable: Observable<Y>, combiner: (X, Y) -> Z): Observable<Z> {
-    return Observable.combineLatest(this, observable, BiFunction(combiner))
+fun <X: Any, Y: Any> Maybe<List<X>>.mapList(transformer: (X) -> Y) : Maybe<List<Y>> {
+    return this.map { it.map(transformer) }
 }

@@ -14,5 +14,5 @@ fun CountryResponse.toEntity() = Country(
 
 fun Country.toCountrySearchItem() = CountrySearchItem(
     id = id,
-    name = name
+    title = "[$id] $name"
 )

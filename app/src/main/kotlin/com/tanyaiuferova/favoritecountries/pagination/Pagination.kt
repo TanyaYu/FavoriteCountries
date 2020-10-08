@@ -4,7 +4,6 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.kotlin.subscribeBy
-import timber.log.Timber
 
 /**
  * Author: Tanya Yuferova
@@ -23,12 +22,11 @@ class Pagination<T>(
 
     private fun transitTo(state: State) {
         this.state = state
-        Timber.d("*** STATE ${state.javaClass.simpleName} page $page")
         state.onEnter()
     }
 
     fun start() {
-        disposable.clear() // cancel all todo check for leaks
+        disposable.clear()
         transitTo(Loading())
     }
 
@@ -82,8 +80,8 @@ class Pagination<T>(
     inner class Data(val data: List<T>) : State() {
         override fun onEnter() {
             if (page > 2)
-                viewInteraction.onNewPage(data)
-            else viewInteraction.onNewData(data)
+                viewInteraction.onNextPage(data)
+            else viewInteraction.onFirstPage(data)
         }
 
         override fun onPageRequest() {
@@ -140,11 +138,11 @@ class Pagination<T>(
 
     interface ViewInteraction<T> {
         fun onLoading()
-        fun onNewData(data: List<T>) //todo on first page
+        fun onFirstPage(data: List<T>)
         fun onError(error: Throwable)
         fun onEmpty()
 
-        fun onNewPage(data: List<T>)
+        fun onNextPage(data: List<T>)
         fun onPageError(error: Throwable)
         fun onPageLoading()
 

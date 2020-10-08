@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.tanyaiuferova.favoritecountries.R
 import com.tanyaiuferova.favoritecountries.pagination.PaginationAdapter
 import com.tanyaiuferova.favoritecountries.ui.base.BaseFragment
+import com.tanyaiuferova.favoritecountries.utils.setOnQueryListener
 import com.tanyaiuferova.favoritecountries.viewmodels.CountrySearchViewModel
 import com.tanyaiuferova.favoritecountries.viewmodels.CountrySearchViewModel.Companion.PAGE_SIZE
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -25,14 +26,24 @@ class CountrySearchFragment : BaseFragment(R.layout.fragment_country_search) {
         onItemClick = ::onCountryClick
     )
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        countries_rv.adapter = PaginationAdapter(
+    private val paginationAdapter by lazy {
+        PaginationAdapter(
             PAGE_SIZE,
             viewModel::onNewPageRequest,
             adapter
         )
-        countries_rv.layoutManager = LinearLayoutManager(requireContext())
-        countries_rv.setHasFixedSize(true)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        with(countries_rv) {
+            adapter = paginationAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+        }
+
+        search_view.setOnQueryListener(onQueryTextChange = { newText ->
+            viewModel.onQueryChanged(newText.orEmpty())
+        })
     }
 
     override fun onAttached() {
@@ -43,7 +54,7 @@ class CountrySearchFragment : BaseFragment(R.layout.fragment_country_search) {
     }
 
     private fun bindCountriesList(markets: List<CountrySearchItem>) {
-        adapter.submitList(markets)
+        paginationAdapter.submitList(markets)
     }
 
     private fun onLoadError(throwable: Throwable) {

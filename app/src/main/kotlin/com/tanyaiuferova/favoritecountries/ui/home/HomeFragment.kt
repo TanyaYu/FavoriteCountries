@@ -23,5 +23,6 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     override fun onAttached() {
+        viewModel.toString()
     }
 }

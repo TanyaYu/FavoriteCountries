@@ -6,6 +6,7 @@ import com.tanyaiuferova.favoritecountries.utils.Schedulers
 import com.tanyaiuferova.favoritecountries.utils.mapList
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Single
 import javax.inject.Inject
 
@@ -28,8 +29,7 @@ class CountriesRepository @Inject constructor(
         return getAllFromNetwork(page, perPage)
             .mapList(CountryResponse::toEntity)
             .flatMap { list ->
-                updateCache(list)
-                    .toSingleDefault(list)
+                updateCache(list).toSingleDefault(list)
             }
     }
 
@@ -69,8 +69,8 @@ class CountriesRepository @Inject constructor(
             .subscribeOn(Schedulers.computation)
     }
 
-    fun search(pattern: String): Flowable<List<Country>> {
-        return countriesDao.search(pattern)
+    fun search(query: String?): Maybe<List<Country>> {
+        return countriesDao.searchNonFavorites(query)
             .subscribeOn(Schedulers.computation)
     }
 
@@ -80,7 +80,7 @@ class CountriesRepository @Inject constructor(
     }
 
     fun clearCache(): Completable {
-        return countriesDao.deleteAllUnfavorites()
+        return countriesDao.deleteAllNonFavorites()
             .subscribeOn(Schedulers.computation)
     }
 }
