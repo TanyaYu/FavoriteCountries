@@ -9,6 +9,7 @@
     android:clickable="true"
     android:focusable="true"
     android:gravity="center_vertical"
+    android:maxLines="1"
     android:paddingLeft="@dimen/spacing_h"
     android:paddingRight="@dimen/spacing_h"
     android:textAppearance="@style/Subtitle1"

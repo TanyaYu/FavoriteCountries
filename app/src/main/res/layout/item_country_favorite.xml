@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_h"
         android:layout_marginBottom="@dimen/spacing_l"
-        android:maxLines="1"
+        android:singleLine="true"
         android:textAppearance="@style/Subtitle1"
         tools:text="Country" />
 
@@ -24,6 +24,7 @@
         android:id="@+id/notes_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ellipsize="marquee"
         android:maxLines="2"
         android:textAppearance="@style/Caption"
         tools:text="Notes notes notes notes notes notes notes notes notes notes notes notes notes" />

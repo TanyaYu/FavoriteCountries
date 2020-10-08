@@ -31,7 +31,7 @@ class CountryDetailsFragment : BaseFragment(R.layout.fragmnet_country_details) {
         dataBinding.onViewCreated(view)
 
         toolbar.setNavigationOnClickListener {
-            findNavController().popBackStack(R.id.home, false)
+            findNavController().navigateUp()
         }
         save_btn.setOnClickListener {
             val notes = notes_et.text.toString()  //todo two way databinding

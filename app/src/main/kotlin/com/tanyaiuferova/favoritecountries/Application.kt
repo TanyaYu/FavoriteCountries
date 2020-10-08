@@ -3,6 +3,7 @@ package com.tanyaiuferova.favoritecountries
 import com.tanyaiuferova.favoritecountries.di.application.DaggerApplicationComponent
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import timber.log.Timber
 
 /**
@@ -22,5 +23,6 @@ class Application : DaggerApplication() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
+        RxJavaPlugins.setErrorHandler(Timber::e)
     }
 }
