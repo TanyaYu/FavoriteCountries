@@ -7,6 +7,7 @@ import com.tanyaiuferova.favoritecountries.pagination.Pagination
 import com.tanyaiuferova.favoritecountries.ui.countrysearch.CountrySearchItem
 import com.tanyaiuferova.favoritecountries.utils.Schedulers
 import com.tanyaiuferova.favoritecountries.utils.mapList
+import com.tanyaiuferova.favoritecountries.viewmodels.CountrySearchViewModel.State.*
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -27,7 +28,7 @@ class CountrySearchViewModel @Inject constructor(
     val countries get() = countriesSubject.hide()
     val state get() = stateSubject.hide()
 
-    private val stateSubject = BehaviorSubject.createDefault(State.LOADING)
+    private val stateSubject = BehaviorSubject.createDefault(LOADING)
     private val countriesSubject = BehaviorSubject.create<List<CountrySearchItem>>()
     private val searchQuery = BehaviorSubject.createDefault<String>("")
 
@@ -36,22 +37,31 @@ class CountrySearchViewModel @Inject constructor(
         viewInteraction = this
     )
 
+    private var isFirstPageLoaded = false
+
     init {
         pagination.start()
 
         disposable += Observables.combineLatest(
-            searchQuery.debounce(500, TimeUnit.MILLISECONDS),
+            searchQuery.debounce(300, TimeUnit.MILLISECONDS),
             countriesRepository.getAllFromCache().toObservable()
         ) { query, _ -> query }
             .flatMapMaybe(countriesRepository::search)
+            .skipWhile { it.isEmpty() && !isFirstPageLoaded } // process the first page request before submitting an empty list
             .mapList(Country::toCountrySearchItem)
             .observeOn(Schedulers.main)
             .subscribeBy(
-                onNext = countriesSubject::onNext,
+                onNext = { data ->
+                    if (data.isEmpty()) {
+                        stateSubject.onNext(EMPTY)
+                    } else {
+                        countriesSubject.onNext(data)
+                        stateSubject.onNext(DATA)
+                    }
+                },
                 onError = ::onError
             )
     }
-
 
     fun onNewPageRequest() {
         pagination.loadNewPage()
@@ -72,28 +82,29 @@ class CountrySearchViewModel @Inject constructor(
     }
 
     override fun onFirstPage(data: List<Country>) {
-        stateSubject.onNext(State.DATA)
+        isFirstPageLoaded = true
+        stateSubject.onNext(DATA)
     }
 
     override fun onError(error: Throwable) {
-        stateSubject.onNext(State.ERROR)
+        stateSubject.onNext(ERROR)
+        // TODO check for different types of errors
     }
 
     override fun onEmpty() {
-        stateSubject.onNext(State.EMPTY)
+        stateSubject.onNext(EMPTY)
     }
 
     override fun onLoading() {
-        stateSubject.onNext(State.LOADING)
+        stateSubject.onNext(LOADING)
     }
 
     override fun onNextPage(data: List<Country>) {
-        stateSubject.onNext(State.DATA)
+        stateSubject.onNext(DATA)
     }
 
     override fun onPageError(error: Throwable) {
-        Timber.e(error)
-        //TODO: Inform user about error
+        stateSubject.onNext(PAGE_ERROR)
     }
 
     override fun onPageLoading() {
@@ -114,10 +125,11 @@ class CountrySearchViewModel @Inject constructor(
         LOADING,
         DATA,
         ERROR,
+        PAGE_ERROR,
         EMPTY
     }
 
     companion object {
-        const val PAGE_SIZE = 30
+        const val PAGE_SIZE = 50
     }
 }

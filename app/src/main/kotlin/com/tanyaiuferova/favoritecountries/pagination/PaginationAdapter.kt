@@ -20,6 +20,9 @@ class PaginationAdapter<T, VH : RecyclerView.ViewHolder>(
 
     fun submitList(list: List<T>?) {
         adapter.submitList(list)
+
+        if(list?.size ?: 0 < pageSize)
+            newPageRequest()
     }
 
     override fun getItemCount(): Int {

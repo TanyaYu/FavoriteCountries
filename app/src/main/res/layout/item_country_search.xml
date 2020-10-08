@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/title_tv"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="wrap_content"
+    android:height="@dimen/single_line_item_m"
+    android:background="@drawable/selectable_row_background"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/spacing_h"
+    android:paddingRight="@dimen/spacing_h"
+    android:textAppearance="@style/Subtitle1"
+    tools:text="[CODE] Country" />
