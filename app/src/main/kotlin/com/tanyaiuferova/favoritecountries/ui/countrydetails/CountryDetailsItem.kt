@@ -8,4 +8,8 @@ data class CountryDetailsItem(
     val id: String,
     val title: String,
     val notes: String
-)
+) {
+    companion object {
+        fun empty() = CountryDetailsItem("", "", "")
+    }
+}

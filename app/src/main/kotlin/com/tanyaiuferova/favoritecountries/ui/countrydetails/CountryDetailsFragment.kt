@@ -13,7 +13,6 @@ import com.tanyaiuferova.favoritecountries.viewmodels.CountryDetailsViewModel
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragmnet_country_details.*
-import kotlin.properties.Delegates
 
 /**
  * Author: Tanya Yuferova
@@ -25,17 +24,27 @@ class CountryDetailsFragment : BaseFragment(R.layout.fragmnet_country_details) {
 
     private val args: CountryDetailsFragmentArgs by navArgs()
 
-    //TODO implement DataBinding
-    private var item by Delegates.observable<CountryDetailsItem?>(null) { _, _, newValue ->
-        if (view != null && newValue != null) bindItem(newValue)
-    }
+    private val dataBinding = CountryDetailsDataBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dataBinding.onViewCreated(view)
+
         toolbar.setNavigationOnClickListener {
             findNavController().popBackStack(R.id.home, false)
         }
-        item?.let(::bindItem)
+        save_btn.setOnClickListener {
+            val notes = notes_et.text.toString()  //todo two way databinding
+            viewModel.saveNotes(notes)
+            findNavController().popBackStack(R.id.home, false)
+        }
+    }
+
+    override fun onAttached() {
+        disposable += viewModel.country.observeOn(main).subscribeBy(
+            onNext = { dataBinding.item = it }
+        )
+        viewModel.onIdChanged(args.id)
     }
 
     override fun onResume() {
@@ -48,20 +57,8 @@ class CountryDetailsFragment : BaseFragment(R.layout.fragmnet_country_details) {
         notes_et.hideSoftKeyboard()
     }
 
-    override fun onAttached() {
-        disposable += viewModel.country.observeOn(main).subscribeBy(
-            onNext = { item = it }
-        )
-        viewModel.onIdChanged(args.id)
-    }
-
-    private fun bindItem(item: CountryDetailsItem) {
-        toolbar.title = item.title
-        notes_et.setText(item.notes)
-        save_btn.setOnClickListener {
-            val notes = notes_et.text.toString()
-            viewModel.onSaveClick(item.id, notes) //todo two way databinding
-            findNavController().popBackStack(R.id.home, false)
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dataBinding.onDestroyView()
     }
 }

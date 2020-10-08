@@ -5,20 +5,16 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.tanyaiuferova.favoritecountries.R
 import com.tanyaiuferova.favoritecountries.pagination.PaginationAdapter
 import com.tanyaiuferova.favoritecountries.ui.base.BaseFragment
-import com.tanyaiuferova.favoritecountries.ui.views.ViewSwitcher
 import com.tanyaiuferova.favoritecountries.utils.Schedulers
 import com.tanyaiuferova.favoritecountries.utils.setOnQueryListener
 import com.tanyaiuferova.favoritecountries.viewmodels.CountrySearchViewModel
 import com.tanyaiuferova.favoritecountries.viewmodels.CountrySearchViewModel.Companion.PAGE_SIZE
-import com.tanyaiuferova.favoritecountries.viewmodels.CountrySearchViewModel.State.*
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_country_search.*
-import kotlin.properties.Delegates
 
 /**
  * Author: Tanya Yuferova
@@ -27,6 +23,8 @@ import kotlin.properties.Delegates
 class CountrySearchFragment : BaseFragment(R.layout.fragment_country_search) {
 
     private val viewModel by viewModels<CountrySearchViewModel>()
+
+    private val dataBinding = CountrySearchBinding()
 
     private val adapter = CountrySearchAdapter(
         onItemClick = ::onCountryClick
@@ -40,20 +38,9 @@ class CountrySearchFragment : BaseFragment(R.layout.fragment_country_search) {
         )
     }
 
-    private lateinit var viewSwitcher: ViewSwitcher
-
-    //TODO implement DataBinding
-    private var state by Delegates.observable(DATA) { _, _, newValue ->
-        if (view != null) bindState(newValue)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewSwitcher = ViewSwitcher(
-            progress_bar,
-            recycler,
-            error_view,
-            empty_view
-        )
+        dataBinding.onViewCreated(view)
+
         with(recycler) {
             adapter = paginationAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -76,39 +63,33 @@ class CountrySearchFragment : BaseFragment(R.layout.fragment_country_search) {
         retry_btn.setOnClickListener {
             viewModel.onRetryClick()
         }
-        bindState(state)
     }
 
     override fun onAttached() {
         disposable += viewModel.countries.subscribeBy(onNext = ::bindCountriesList)
         disposable += viewModel.state
             .observeOn(Schedulers.main)
-            .subscribeBy(onNext = { state = it })
+            .subscribeBy(onNext = { dataBinding.state = it })
     }
 
     private fun bindCountriesList(markets: List<CountrySearchItem>) {
         paginationAdapter.submitList(markets)
     }
 
-    private fun bindState(state: CountrySearchViewModel.State) {
-        when (state) {
-            LOADING -> viewSwitcher.display(progress_bar)
-            DATA -> viewSwitcher.display(recycler)
-            ERROR -> viewSwitcher.display(error_view)
-            EMPTY -> viewSwitcher.display(empty_view)
-            PAGE_ERROR -> showPageErrorMessage()
-        }
-    }
-
-    private fun showPageErrorMessage() {
-        Snackbar.make(
-            container,
-            R.string.country_search_error_message,
-            Snackbar.LENGTH_SHORT
-        ).show()
-    }
-
     private fun onCountryClick(id: String) {
         findNavController().navigate(CountrySearchFragmentDirections.actionSearchToDetails(id))
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dataBinding.onDestroyView()
+    }
+
+    enum class State {
+        LOADING,
+        DATA,
+        ERROR,
+        PAGE_ERROR,
+        EMPTY
     }
 }

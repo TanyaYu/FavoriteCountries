@@ -7,7 +7,7 @@ import com.tanyaiuferova.favoritecountries.pagination.Pagination
 import com.tanyaiuferova.favoritecountries.ui.countrysearch.CountrySearchItem
 import com.tanyaiuferova.favoritecountries.utils.Schedulers
 import com.tanyaiuferova.favoritecountries.utils.mapList
-import com.tanyaiuferova.favoritecountries.viewmodels.CountrySearchViewModel.State.*
+import com.tanyaiuferova.favoritecountries.ui.countrysearch.CountrySearchFragment.State.*
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -119,14 +119,6 @@ class CountrySearchViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         pagination.clear()
-    }
-
-    enum class State {
-        LOADING,
-        DATA,
-        ERROR,
-        PAGE_ERROR,
-        EMPTY
     }
 
     companion object {

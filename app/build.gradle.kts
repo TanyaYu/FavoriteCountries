@@ -73,7 +73,7 @@ dependencies {
     // Dagger2
     implementation("com.google.dagger:dagger:2.17")
     implementation("com.google.dagger:dagger-android:2.17")
-    implementation("com.google.dagger:dagger-android-support:2.17") // if you use the support libraries
+    implementation("com.google.dagger:dagger-android-support:2.17")
     kapt("com.google.dagger:dagger-android-processor:2.17")
     kapt("com.google.dagger:dagger-compiler:2.17")
 

@@ -4,6 +4,7 @@ import com.tanyaiuferova.favoritecountries.data.country.CountriesRepository
 import com.tanyaiuferova.favoritecountries.data.country.Country
 import com.tanyaiuferova.favoritecountries.data.country.toDetailsItem
 import io.reactivex.rxjava3.kotlin.plusAssign
+import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import javax.inject.Inject
 
@@ -25,8 +26,10 @@ class CountryDetailsViewModel @Inject constructor(
         idSubject.onNext(id)
     }
 
-    fun onSaveClick(id: String, notes: String) {
-        disposable += countriesRepository.addToFavorites(id, notes)
-            .subscribe()
+    fun saveNotes(notes: String) {
+        disposable += idSubject
+            .flatMapCompletable { id ->
+                countriesRepository.addToFavorites(id, notes)
+            }.subscribeBy()
     }
 }

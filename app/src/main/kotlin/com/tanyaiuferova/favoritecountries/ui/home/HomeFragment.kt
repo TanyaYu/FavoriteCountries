@@ -7,13 +7,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.tanyaiuferova.favoritecountries.R
 import com.tanyaiuferova.favoritecountries.ui.base.BaseFragment
-import com.tanyaiuferova.favoritecountries.ui.views.ViewSwitcher
 import com.tanyaiuferova.favoritecountries.utils.Schedulers.main
 import com.tanyaiuferova.favoritecountries.viewmodels.HomeViewModel
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_home.*
-import kotlin.properties.Delegates
 
 /**
  * Author: Tanya Yuferova
@@ -23,28 +21,24 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
     private val viewModel by viewModels<HomeViewModel>()
 
+    private val dataBinding = HomeDataBinding()
+
     private val adapter = FavoriteCountriesAdapter(
         onItemClick = ::onCountryClick
     )
 
-    private lateinit var viewSwitcher: ViewSwitcher
-
-    //TODO implement DataBinding
-    private var state by Delegates.observable(HomeViewModel.State.DATA) { _, _, newValue ->
-        if (view != null) bindState(newValue)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewSwitcher = ViewSwitcher(recycler, empty_view)
+        dataBinding.onViewCreated(view)
+
         with(recycler) {
             adapter = this@HomeFragment.adapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }
+
         add_btn.setOnClickListener {
             findNavController().navigate(HomeFragmentDirections.actionHomeToSearch())
         }
-        bindState(state)
     }
 
     override fun onAttached() {
@@ -54,23 +48,26 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
         disposable += viewModel.state
             .observeOn(main)
-            .subscribeBy(onNext = { state = it })
+            .subscribeBy(onNext = { dataBinding.state = it })
     }
 
     private fun bindFavorites(list: List<FavoriteCountryItem>) {
         adapter.submitList(list)
     }
 
-    private fun bindState(state: HomeViewModel.State) {
-        when (state) {
-            HomeViewModel.State.DATA -> viewSwitcher.display(recycler)
-            HomeViewModel.State.EMPTY -> viewSwitcher.display(empty_view)
-        }
-    }
-
     private fun onCountryClick(id: String) {
         Snackbar.make(container, R.string.home_fragment_delete_message, Snackbar.LENGTH_LONG)
             .setAction(R.string.yes_action) { viewModel.deleteFromFavorites(id) }
             .show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        dataBinding.onDestroyView()
+    }
+
+    enum class State {
+        DATA,
+        EMPTY
     }
 }

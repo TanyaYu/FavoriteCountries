@@ -3,6 +3,7 @@ package com.tanyaiuferova.favoritecountries.viewmodels
 import com.tanyaiuferova.favoritecountries.data.country.CountriesRepository
 import com.tanyaiuferova.favoritecountries.data.country.Country
 import com.tanyaiuferova.favoritecountries.data.country.toFavoriteItem
+import com.tanyaiuferova.favoritecountries.ui.home.HomeFragment.State
 import com.tanyaiuferova.favoritecountries.utils.mapList
 import io.reactivex.rxjava3.kotlin.plusAssign
 import javax.inject.Inject
@@ -29,10 +30,5 @@ class HomeViewModel @Inject constructor(
 
     fun deleteFromFavorites(id: String) {
         disposable += countriesRepository.deleteFromFavorites(id).subscribe()
-    }
-
-    enum class State {
-        DATA,
-        EMPTY
     }
 }
