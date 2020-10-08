@@ -1,5 +1,6 @@
 package com.tanyaiuferova.favoritecountries.di.activity
 
+import com.tanyaiuferova.favoritecountries.ui.countrydetails.CountryDetailsFragment
 import com.tanyaiuferova.favoritecountries.ui.countrysearch.CountrySearchFragment
 import com.tanyaiuferova.favoritecountries.ui.home.HomeFragment
 import dagger.Module
@@ -17,4 +18,7 @@ abstract class FragmentBuildersModule {
 
     @ContributesAndroidInjector
     internal abstract fun bindCountrySearchFragment(): CountrySearchFragment
+
+    @ContributesAndroidInjector
+    internal abstract fun bindCountryDetailsFragment(): CountryDetailsFragment
 }

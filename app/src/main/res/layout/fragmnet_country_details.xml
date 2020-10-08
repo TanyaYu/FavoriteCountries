@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:navigationIcon="@drawable/ic_arrow_back"
+        tools:title="@string/home_toolbar_title" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/spacing_h"
+        android:layout_marginLeft="@dimen/spacing_h"
+        android:layout_marginTop="@dimen/spacing_m"
+        android:layout_marginEnd="@dimen/spacing_h"
+        android:layout_marginRight="@dimen/spacing_h"
+        android:layout_weight="1"
+        android:hint="@string/country_details_notes_hint"
+        android:scrollbars="vertical">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/notes_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            tools:text="Notes notes notes notes notes notes notes notes notes notes notes" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/save_btn"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_h"
+        android:text="@string/country_details_save_btn_text" />
+
+</LinearLayout>
+

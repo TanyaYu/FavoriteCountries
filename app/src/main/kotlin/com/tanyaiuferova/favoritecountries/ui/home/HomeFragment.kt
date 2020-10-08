@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.tanyaiuferova.favoritecountries.R
 import com.tanyaiuferova.favoritecountries.ui.base.BaseFragment
 import com.tanyaiuferova.favoritecountries.ui.views.ViewSwitcher
@@ -26,9 +27,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
         onItemClick = ::onCountryClick
     )
 
-    private val viewSwitcher by lazy {
-        ViewSwitcher(recycler, empty_view)
-    }
+    private lateinit var viewSwitcher: ViewSwitcher
 
     //TODO implement DataBinding
     private var state by Delegates.observable(HomeViewModel.State.DATA) { _, _, newValue ->
@@ -36,6 +35,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewSwitcher = ViewSwitcher(recycler, empty_view)
         with(recycler) {
             adapter = this@HomeFragment.adapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -54,7 +54,7 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
 
         disposable += viewModel.state
             .observeOn(main)
-            .subscribeBy(onNext = { state = it})
+            .subscribeBy(onNext = { state = it })
     }
 
     private fun bindFavorites(list: List<FavoriteCountryItem>) {
@@ -69,5 +69,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private fun onCountryClick(id: String) {
+        Snackbar.make(container, R.string.home_fragment_delete_message, Snackbar.LENGTH_LONG)
+            .setAction(R.string.yes_action) { viewModel.deleteFromFavorites(id) }
+            .show()
     }
 }

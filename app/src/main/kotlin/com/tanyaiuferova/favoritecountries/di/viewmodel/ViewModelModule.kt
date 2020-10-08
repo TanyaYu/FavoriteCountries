@@ -2,6 +2,7 @@ package com.tanyaiuferova.favoritecountries.di.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.tanyaiuferova.favoritecountries.viewmodels.CountryDetailsViewModel
 import com.tanyaiuferova.favoritecountries.viewmodels.CountrySearchViewModel
 import com.tanyaiuferova.favoritecountries.viewmodels.HomeViewModel
 import dagger.Binds
@@ -26,5 +27,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CountrySearchViewModel::class)
     internal abstract fun bindCountrySearchViewModel(viewModel: CountrySearchViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CountryDetailsViewModel::class)
+    internal abstract fun bindCountryDetailsViewModell(viewModel: CountryDetailsViewModel): ViewModel
 
 }

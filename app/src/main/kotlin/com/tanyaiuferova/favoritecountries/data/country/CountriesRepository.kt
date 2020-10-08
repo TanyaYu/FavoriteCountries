@@ -19,6 +19,9 @@ class CountriesRepository @Inject constructor(
     private val countriesDao: CountriesDao
 ) {
 
+    fun getById(id: String) = countriesDao.getById(id)
+        .subscribeOn(Schedulers.io)
+
     fun loadInCache(page: Int, perPage: Int): Completable {
         return getAllFromNetwork(page, perPage)
             .mapList(CountryResponse::toEntity)
@@ -68,6 +71,11 @@ class CountriesRepository @Inject constructor(
         return countriesDao.updateFavorite(countryId, true)
             .subscribeOn(Schedulers.computation)
     }
+    fun addToFavorites(countryId: String, notes: String): Completable {
+        return countriesDao.updateFavorite(countryId, true)
+            .andThen(countriesDao.updateNotes(countryId, notes))
+            .subscribeOn(Schedulers.computation)
+    }
 
     fun search(query: String?): Maybe<List<Country>> {
         return countriesDao.searchNonFavorites(query)
@@ -76,6 +84,7 @@ class CountriesRepository @Inject constructor(
 
     fun deleteFromFavorites(countryId: String): Completable {
         return countriesDao.updateFavorite(countryId, false)
+            .andThen(countriesDao.updateNotes(countryId, null))
             .subscribeOn(Schedulers.computation)
     }
 

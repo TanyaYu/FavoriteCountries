@@ -1,5 +1,8 @@
 package com.tanyaiuferova.favoritecountries.utils
 
+import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.widget.SearchView
 
 /**
@@ -27,4 +30,16 @@ fun SearchView.setOnQueryListener(
             }
         }
     })
+}
+
+fun View.showSoftKeyboard() {
+    if (requestFocus()) {
+        val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
+    }
+}
+
+fun View.hideSoftKeyboard() {
+    val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    inputMethodManager.hideSoftInputFromWindow(this.windowToken, 0)
 }

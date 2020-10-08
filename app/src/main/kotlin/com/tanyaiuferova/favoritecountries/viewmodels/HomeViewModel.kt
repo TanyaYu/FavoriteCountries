@@ -27,6 +27,10 @@ class HomeViewModel @Inject constructor(
         disposable += countriesRepository.clearCache().subscribe()
     }
 
+    fun deleteFromFavorites(id: String) {
+        disposable += countriesRepository.deleteFromFavorites(id).subscribe()
+    }
+
     enum class State {
         DATA,
         EMPTY

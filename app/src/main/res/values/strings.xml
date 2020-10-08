@@ -8,4 +8,9 @@
     <string name="home_toolbar_title">Favorites</string>
     <string name="home_empty_message">Nothing found</string>
     <string name="home_add_content_des">Add</string>
+    <string name="country_details_notes_hint">Your notes</string>
+    <string name="country_details_save_btn_text">Save</string>
+    <string name="home_fragment_delete_message">Delete from favorites?</string>
+    <string name="yes_action">Yes</string>
+    <string name="cancel_action">Cancel</string>
 </resources>

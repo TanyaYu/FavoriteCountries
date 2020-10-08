@@ -18,6 +18,7 @@ import com.tanyaiuferova.favoritecountries.viewmodels.CountrySearchViewModel.Sta
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import kotlinx.android.synthetic.main.fragment_country_search.*
+import kotlin.properties.Delegates
 
 /**
  * Author: Tanya Yuferova
@@ -39,16 +40,20 @@ class CountrySearchFragment : BaseFragment(R.layout.fragment_country_search) {
         )
     }
 
-    private val viewSwitcher by lazy {
-        ViewSwitcher(
+    private lateinit var viewSwitcher: ViewSwitcher
+
+    //TODO implement DataBinding
+    private var state by Delegates.observable(DATA) { _, _, newValue ->
+        if (view != null) bindState(newValue)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        viewSwitcher = ViewSwitcher(
             progress_bar,
             recycler,
             error_view,
             empty_view
         )
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(recycler) {
             adapter = paginationAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -71,13 +76,14 @@ class CountrySearchFragment : BaseFragment(R.layout.fragment_country_search) {
         retry_btn.setOnClickListener {
             viewModel.onRetryClick()
         }
+        bindState(state)
     }
 
     override fun onAttached() {
         disposable += viewModel.countries.subscribeBy(onNext = ::bindCountriesList)
         disposable += viewModel.state
             .observeOn(Schedulers.main)
-            .subscribeBy(onNext = ::bindState)
+            .subscribeBy(onNext = { state = it })
     }
 
     private fun bindCountriesList(markets: List<CountrySearchItem>) {
@@ -103,5 +109,6 @@ class CountrySearchFragment : BaseFragment(R.layout.fragment_country_search) {
     }
 
     private fun onCountryClick(id: String) {
+        findNavController().navigate(CountrySearchFragmentDirections.actionSearchToDetails(id))
     }
 }

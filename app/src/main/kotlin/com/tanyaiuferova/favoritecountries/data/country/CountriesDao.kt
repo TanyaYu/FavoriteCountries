@@ -41,6 +41,9 @@ interface CountriesDao {
     @Query("UPDATE country SET isFavorite = :isFavorite WHERE id = :id")
     fun updateFavorite(id: String, isFavorite: Boolean): Completable
 
+    @Query("UPDATE country SET notes = :notes WHERE id = :id")
+    fun updateNotes(id: String, notes: String?): Completable
+
     @Query("DELETE FROM country WHERE isFavorite = 0")
     fun deleteAllNonFavorites(): Completable
 
