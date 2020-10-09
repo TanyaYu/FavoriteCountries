@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tanyaiuferova.favoritecountries.R
 import com.tanyaiuferova.favoritecountries.pagination.PaginationAdapter
-import com.tanyaiuferova.favoritecountries.ui.base.BaseFragment
+import com.tanyaiuferova.favoritecountries.ui.base.BaseDialogFragment
 import com.tanyaiuferova.favoritecountries.utils.Schedulers
 import com.tanyaiuferova.favoritecountries.utils.setOnQueryListener
 import com.tanyaiuferova.favoritecountries.viewmodels.CountrySearchViewModel
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_country_search.*
  * Author: Tanya Yuferova
  * Date: 10/5/2020
  */
-class CountrySearchFragment : BaseFragment(R.layout.fragment_country_search) {
+class CountrySearchFragment : BaseDialogFragment(R.layout.fragment_country_search) {
 
     private val viewModel by viewModels<CountrySearchViewModel>()
 

@@ -6,7 +6,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tanyaiuferova.favoritecountries.R
-import com.tanyaiuferova.favoritecountries.ui.base.BaseFragment
+import com.tanyaiuferova.favoritecountries.ui.base.BaseDialogFragment
 import com.tanyaiuferova.favoritecountries.utils.Schedulers.main
 import com.tanyaiuferova.favoritecountries.utils.hideSoftKeyboard
 import com.tanyaiuferova.favoritecountries.utils.showSoftKeyboard
@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragmnet_country_details.*
  * Author: Tanya Yuferova
  * Date: 10/5/2020
  */
-class CountryDetailsFragment : BaseFragment(R.layout.fragmnet_country_details) {
+class CountryDetailsFragment : BaseDialogFragment(R.layout.fragmnet_country_details) {
 
     private val viewModel by viewModels<CountryDetailsViewModel>()
 

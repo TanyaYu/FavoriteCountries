@@ -10,4 +10,16 @@
         <item name="actionMenuTextColor">@android:color/white</item>
         <item name="toolbarNavigationButtonStyle">@style/ToolbarNavigationIcon</item>
     </style>
+
+    <style name="ModalTheme" parent="Theme.MaterialComponents.Light.DialogWhenLarge">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary</item>
+        <item name="actionMenuTextColor">@android:color/white</item>
+        <item name="toolbarNavigationButtonStyle">@style/ToolbarNavigationIcon</item>
+    </style>
 </resources>

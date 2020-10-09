@@ -16,7 +16,7 @@
             app:destination="@id/search" />
     </fragment>
 
-    <fragment
+    <dialog
         android:id="@+id/search"
         android:name="com.tanyaiuferova.favoritecountries.ui.countrysearch.CountrySearchFragment"
         android:label="fragment_search"
@@ -25,9 +25,9 @@
             android:id="@+id/action_search_to_details"
             app:destination="@+id/details"/>
 
-    </fragment>
+    </dialog>
 
-    <fragment
+    <dialog
         android:id="@+id/details"
         android:name="com.tanyaiuferova.favoritecountries.ui.countrydetails.CountryDetailsFragment"
         android:label="fragment_details"
@@ -35,6 +35,6 @@
         <argument
             android:name="id"
             app:argType="string" />
-    </fragment>
+    </dialog>
 
 </navigation>
