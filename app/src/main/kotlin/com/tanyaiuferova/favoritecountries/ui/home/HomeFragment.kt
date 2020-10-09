@@ -56,8 +56,8 @@ class HomeFragment : BaseFragment(R.layout.fragment_home) {
     }
 
     private fun onCountryClick(id: String) {
-        Snackbar.make(container, R.string.home_fragment_delete_message, Snackbar.LENGTH_LONG)
-            .setAction(R.string.yes_action) { viewModel.deleteFromFavorites(id) }
+        Snackbar.make(container, R.string.home_on_delete_message, Snackbar.LENGTH_LONG)
+            .setAction(R.string.action_yes) { viewModel.deleteFromFavorites(id) }
             .show()
     }
 

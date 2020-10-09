@@ -9,37 +9,31 @@ import androidx.appcompat.widget.SearchView
  * Author: Tanya Yuferova
  * Date: 10/7/2020
  */
-fun SearchView.setOnQueryListener(
-    onQueryTextSubmit: ((query: String?) -> Unit)? = null,
-    onQueryTextChange: ((newText: String?) -> Unit)? = null
+inline fun SearchView.setOnQueryListener(
+    crossinline onQueryTextSubmit: ((query: String?) -> Boolean) = { _ -> false },
+    crossinline onQueryTextChange: ((newText: String?) -> Boolean) = { _ -> false }
 ) {
     setOnQueryTextListener(object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String?): Boolean {
-            if(onQueryTextSubmit == null) return false
-            else {
-                onQueryTextSubmit(query)
-                return true
-            }
+            return onQueryTextSubmit(query)
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            if(onQueryTextChange == null) return false
-            else {
-                onQueryTextChange(newText)
-                return true
-            }
+            return onQueryTextChange(newText)
         }
     })
 }
 
 fun View.showSoftKeyboard() {
     if (requestFocus()) {
-        val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.showSoftInput(this, InputMethodManager.SHOW_IMPLICIT)
     }
 }
 
 fun View.hideSoftKeyboard() {
-    val inputMethodManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    val inputMethodManager =
+        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(this.windowToken, 0)
 }

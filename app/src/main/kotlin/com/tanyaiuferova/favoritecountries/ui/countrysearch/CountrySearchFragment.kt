@@ -33,7 +33,7 @@ class CountrySearchFragment : BaseFragment(R.layout.fragment_country_search) {
     private val paginationAdapter by lazy {
         PaginationAdapter(
             PAGE_SIZE,
-            viewModel::onNewPageRequest,
+            viewModel::requestNextPage,
             adapter
         )
     }
@@ -55,13 +55,14 @@ class CountrySearchFragment : BaseFragment(R.layout.fragment_country_search) {
             val searchView = menu.findItem(R.id.app_bar_search).actionView as SearchView
             searchView.setOnQueryListener(
                 onQueryTextChange = { newText ->
-                    viewModel.onQueryChanged(newText.orEmpty())
+                    viewModel.updateQuery(newText.orEmpty())
+                    true
                 }
             )
         }
 
         retry_btn.setOnClickListener {
-            viewModel.onRetryClick()
+            viewModel.retry()
         }
     }
 

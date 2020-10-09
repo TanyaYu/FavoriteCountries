@@ -25,7 +25,8 @@ class HomeViewModel @Inject constructor(
     }
 
     init {
-        disposable += countriesRepository.clearCache().subscribe()
+//        Clear cache on launch if necessary
+//        disposable += countriesRepository.clearCache().subscribe()
     }
 
     fun deleteFromFavorites(id: String) {

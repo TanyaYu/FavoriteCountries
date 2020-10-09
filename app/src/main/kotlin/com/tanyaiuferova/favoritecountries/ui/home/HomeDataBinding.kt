@@ -21,6 +21,18 @@ class HomeDataBinding: DataBinding<HomeDataBinding.ViewHolder>() {
         }
     }
 
+    override fun onViewCreated(view: View) {
+        super.onViewCreated(view)
+
+        // FIXME!!! Should call binding in the base class
+        with (viewHolder!!) {
+            when (state) {
+                DATA -> viewSwitcher.display(recycler)
+                EMPTY -> viewSwitcher.display(emptyView)
+            }
+        }
+    }
+
     override fun createViewHolder(view: View) = ViewHolder(view)
 
     class ViewHolder(private val view: View) : DataBinding.ViewHolder(view) {

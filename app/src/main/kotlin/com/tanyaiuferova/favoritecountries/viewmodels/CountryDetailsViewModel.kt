@@ -1,11 +1,10 @@
 package com.tanyaiuferova.favoritecountries.viewmodels
 
 import com.tanyaiuferova.favoritecountries.data.country.CountriesRepository
-import com.tanyaiuferova.favoritecountries.data.country.Country
-import com.tanyaiuferova.favoritecountries.data.country.toDetailsItem
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.kotlin.subscribeBy
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -16,20 +15,34 @@ class CountryDetailsViewModel @Inject constructor(
     private val countriesRepository: CountriesRepository
 ) : RxViewModel() {
 
+    val notes get() = notesSubject.hide().distinct()
+    val title get() = titleSubject.hide().firstOrError()
+
     private val idSubject = BehaviorSubject.create<String>()
+    private val notesSubject = BehaviorSubject.create<String>()
+    private val titleSubject = BehaviorSubject.create<String>()
 
-    val country = idSubject
-        .flatMapMaybe(countriesRepository::getById)
-        .map(Country::toDetailsItem)
+    init {
+        disposable += idSubject
+            .flatMapMaybe(countriesRepository::getById)
+            .firstElement()
+            .subscribeBy(onSuccess = { item ->
+                notesSubject.onNext(item.notes.orEmpty())
+                titleSubject.onNext(item.name)
+            }, onError = Timber::e)
+    }
 
-    fun onIdChanged(id: String) {
+    fun updateId(id: String) {
         idSubject.onNext(id)
     }
 
-    fun saveNotes(notes: String) {
-        disposable += idSubject
-            .flatMapCompletable { id ->
-                countriesRepository.addToFavorites(id, notes)
-            }.subscribeBy()
+    fun updateNotes(notes: String) {
+        notesSubject.onNext(notes)
+    }
+
+    fun save() {
+        val id = idSubject.value
+        val note = notesSubject.value
+        disposable += countriesRepository.addToFavorites(id, note).subscribeBy()
     }
 }

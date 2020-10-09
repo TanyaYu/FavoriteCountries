@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/spacing_l"
-            android:text="@string/retry_action" />
+            android:text="@string/action_retry" />
     </LinearLayout>
 
     <TextView

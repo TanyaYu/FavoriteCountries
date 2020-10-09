@@ -51,7 +51,7 @@
         android:layout_marginEnd="@dimen/spacing_h"
         android:layout_marginRight="@dimen/spacing_h"
         android:layout_marginBottom="@dimen/spacing_h"
-        android:contentDescription="@string/home_add_content_des"
+        android:contentDescription="@string/home_add_contentdes"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_add" />

@@ -32,6 +32,21 @@ class CountrySearchBinding: DataBinding<CountrySearchBinding.ViewHolder>() {
         ).show()
     }
 
+    override fun onViewCreated(view: View) {
+        super.onViewCreated(view)
+
+        // FIXME!!! Shown call binding in the base class
+        with (viewHolder!!) {
+            when (state) {
+                LOADING -> viewSwitcher.display(progressBar)
+                DATA -> viewSwitcher.display(recycler)
+                ERROR -> viewSwitcher.display(errorView)
+                EMPTY -> viewSwitcher.display(emptyView)
+                PAGE_ERROR -> showPageErrorMessage(view)
+            }
+        }
+    }
+
     override fun createViewHolder(view: View) = ViewHolder(view)
 
     class ViewHolder(val view: View) : DataBinding.ViewHolder(view) {

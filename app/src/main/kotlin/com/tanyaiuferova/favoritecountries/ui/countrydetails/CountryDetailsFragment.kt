@@ -2,6 +2,7 @@ package com.tanyaiuferova.favoritecountries.ui.countrydetails
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.widget.addTextChangedListener
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.tanyaiuferova.favoritecountries.R
@@ -33,18 +34,25 @@ class CountryDetailsFragment : BaseFragment(R.layout.fragmnet_country_details) {
         toolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+
         save_btn.setOnClickListener {
-            val notes = notes_et.text.toString()  //todo two way databinding
-            viewModel.saveNotes(notes)
+            viewModel.save()
             findNavController().popBackStack(R.id.home, false)
         }
+
+        notes_et.addTextChangedListener(
+            afterTextChanged = { editable ->
+                val notes = editable?.toString().orEmpty()
+                viewModel.updateNotes(notes)
+            })
     }
 
     override fun onAttached() {
-        disposable += viewModel.country.observeOn(main).subscribeBy(
-            onNext = { dataBinding.item = it }
-        )
-        viewModel.onIdChanged(args.id)
+        disposable += viewModel.title.observeOn(main)
+            .subscribeBy(onSuccess = { dataBinding.title = it })
+        disposable += viewModel.notes.observeOn(main)
+            .subscribeBy(onNext = { dataBinding.notes = it })
+        viewModel.updateId(args.id)
     }
 
     override fun onResume() {

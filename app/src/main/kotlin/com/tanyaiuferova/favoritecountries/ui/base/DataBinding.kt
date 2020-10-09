@@ -26,8 +26,8 @@ abstract class DataBinding<VH : DataBinding.ViewHolder> {
     ) = Delegates.observable(defaultValue, bind(action))
 
     private fun <T> bind(action: VH.(item: T) -> Unit): (KProperty<*>, T, T) -> Unit {
-        return { _, _, newValue ->
-            if (viewHolder != null && newValue != null)
+        return { _, oldValue, newValue ->
+            if (viewHolder != null && newValue != null && oldValue != newValue)
                 viewHolder!!.apply { action(newValue) }
         }
     }

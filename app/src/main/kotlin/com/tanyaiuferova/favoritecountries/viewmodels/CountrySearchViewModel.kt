@@ -43,7 +43,7 @@ class CountrySearchViewModel @Inject constructor(
         pagination.start()
 
         disposable += Observables.combineLatest(
-            searchQuery.debounce(300, TimeUnit.MILLISECONDS),
+            searchQuery.debounce(200, TimeUnit.MILLISECONDS),
             countriesRepository.getAllFromCache().toObservable()
         ) { query, _ -> query }
             .flatMapMaybe(countriesRepository::search)
@@ -63,15 +63,15 @@ class CountrySearchViewModel @Inject constructor(
             )
     }
 
-    fun onNewPageRequest() {
+    fun requestNextPage() {
         pagination.loadNewPage()
     }
 
-    fun onRetryClick() {
+    fun retry() {
         pagination.retry()
     }
 
-    fun onQueryChanged(query: String) {
+    fun updateQuery(query: String) {
         searchQuery.onNext(query)
     }
 
